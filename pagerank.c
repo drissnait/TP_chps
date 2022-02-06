@@ -152,6 +152,7 @@ void RemplirMatrice(int maxData){
 		}
 	}*/
 
+   
 	
 	while(fscanf(file,"%[^\n] ",data) != EOF){ /*On parcourt tant qu'on est pas arrivé à la fin du fichier*/
 		ligneSansCommentaire=strstr(data,commentaire);
@@ -235,11 +236,23 @@ void RemplirMatrice(int maxData){
 		vecteurComparaison[i]=0.00;
 	}
 	
+	int num;
+	FILE *fptr;
+
+	fptr = fopen("data.dat","w");
+
+	if(fptr == NULL)
+	{
+		printf("Erreur ouverture du fichier!");   
+		exit(1);             
+	}
+
+
+
 	int iter=0;
 	while(finIteration > epsilon){
 		if (iter==0){
 			vecteurResultat=matriceXvecteur(matriceProbabilite,nbrOccurence,maxData);
-			
 			/*printf("\n\nVecteur depart : \n");
 			for (int i=0;i<maxData; i++){
 				printf("vecteur[%d] : %f\n", i, nbrOccurence[i]);
@@ -266,11 +279,11 @@ void RemplirMatrice(int maxData){
 		for (int i=0;i<maxData;i++){
 			vecteurComparaison[i]=vecteurResultat[i];
 		}
-		
+		fprintf(fptr,"%d;%f\n",iter,finIteration);
 		printf("resultat = %f, iteration  = %d\n", finIteration, iter);
 		iter++;
 	}
-	
+	fclose(fptr);
 	fclose(file);
 	free(matrice);
 	free(data);

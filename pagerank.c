@@ -212,7 +212,9 @@ void RemplirMatrice(int maxData){
 	}
 
 	for(int i=0; i<maxData;i++){
-		nbrOccurence[i]=(float)1/nbNoeuds;
+		if (tabData[i]==1){
+			nbrOccurence[i]=(float)1/nbNoeuds;
+		}
 	}
 	/*for (int i=0; i < maxData; i ++){
 		for (int j=0; j < maxData; j ++){

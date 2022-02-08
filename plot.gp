@@ -14,7 +14,7 @@ set style data histogram
 set multiplot layout 2, 2 rowsfirst
 set datafile separator ";"
 set yrange [0:0.9]
-set xrange [0:10]
+set xrange [0:9]
 set xlabel "iteration"
 set ylabel "||Xk - X(k-1)||"
 set title "'||Xk - X(k-1)||' selon les itérations"

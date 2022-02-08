@@ -19,6 +19,58 @@ float* matriceXvecteur(float** matrice, float* vecteur, int maxData){
 }
 
 
+float* matriceXvecteur2(float** matrice, float* vecteur, int maxData){
+	float * vecteurResultat = NULL;
+	float * vecteurCalcul = NULL;
+	int coeff=(1-damping)/(float)maxData;
+	vecteurResultat=malloc(maxData*sizeof(vecteurResultat));
+	vecteurCalcul=malloc(maxData*sizeof(vecteurCalcul));
+	/*alpha * Matrice*/
+	for (int i=0;i<maxData;i++){
+		for (int j=0;j<maxData;j++){
+			matrice[i][j]=matrice[i][j]*damping;
+		}
+	}
+	/*Matrice * vecteur*/
+	for (int i =0; i < maxData;i++){
+		for (int j=0; j <maxData;j++){
+			vecteurResultat[i]+=matrice[i][j]*vecteur[j];
+		}
+	}
+
+	/*Matrice gout*/
+	float **matriceGout=NULL;
+	matriceGout=malloc(maxData*sizeof(*matriceGout));
+	for (int i=0; i<maxData;i++){
+		matriceGout[i]=malloc(maxData*sizeof(*(matriceGout[i])));
+		for (int j=0;j<maxData;j++){
+			matriceGout[i][j]=1;
+		}
+	}
+
+	/*coef * matrice gout*/
+	for (int i=0;i<maxData;i++){
+		for ( int j=0;j<maxData;j++){
+			matriceGout[i][j]=matriceGout[i][j]*coeff;
+		}
+	}
+
+	/* multiplié par le vecteur*/
+	for (int i =0; i < maxData;i++){
+		for (int j=0; j <maxData;j++){
+			vecteurCalcul[i]+=matriceGout[i][j]*vecteur[j];
+		}
+	}
+
+	/*somme des deux vecteurs*/
+	for (int i=0;i<maxData;i++){
+		vecteurResultat[i]=vecteurResultat[i]+vecteurCalcul[i];
+	}
+
+
+	return vecteurResultat;
+}
+
 int getMax(){
 	const char* commentaire="#";
 
@@ -244,16 +296,15 @@ void pageRank(int maxData){
 
 	if(fptr == NULL)
 	{
-		printf("Erreur ouverture du fichier!");   
+		printf("Erreur ouverture du fichier d'écriture de données!");   
 		exit(1);             
 	}
 
 
-
 	int iter=0;
-	while(finIteration > epsilon){
+	while( iter <= nb_iteration_max && finIteration > epsilon){
 		if (iter==0){
-			vecteurResultat=matriceXvecteur(matriceProbabilite,nbrOccurence,maxData);
+			vecteurResultat=matriceXvecteur2(matriceProbabilite,nbrOccurence,maxData);
 			/*printf("\n\nVecteur depart : \n");
 			for (int i=0;i<maxData; i++){
 				printf("vecteur[%d] : %f\n", i, nbrOccurence[i]);
@@ -271,11 +322,14 @@ void pageRank(int maxData){
 				printf("vecteur[%d] : %f\n", i, vecteurResultat[i]);
 			}*/
 		}else{
-			vecteurResultat=matriceXvecteur(matriceProbabilite,vecteurComparaison,maxData);
+			vecteurResultat=matriceXvecteur2(matriceProbabilite,vecteurComparaison,maxData);
 		}
 		
 		
+		
 		finIteration=conditionArret(vecteurResultat,vecteurComparaison,maxData);/*condition d'arret*/
+
+
 
 		for (int i=0;i<maxData;i++){
 			vecteurComparaison[i]=vecteurResultat[i];

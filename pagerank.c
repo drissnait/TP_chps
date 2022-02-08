@@ -3,8 +3,9 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <math.h>
+#include "pagerank.h"
 
-#define epsilon       0.0001
+
 
 float* matriceXvecteur(float** matrice, float* vecteur, int maxData){
 	float * vecteurResultat = NULL;
@@ -77,7 +78,7 @@ float conditionArret(float *vecteur1, float* vecteur2, int maxData){
 	return sqrt(ret);
 }
 
-void RemplirMatrice(int maxData){
+void pageRank(int maxData){
 	maxData=maxData+1;
 	const char* commentaire="#";
 
@@ -293,7 +294,7 @@ void RemplirMatrice(int maxData){
 int main(){
 	int nb=getMax();
 	printf("le maximum est : %d \n ", nb);
-	RemplirMatrice(nb);
+	pageRank(nb);
 	
 }
 	

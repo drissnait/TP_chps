@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <math.h>
 #include "pagerank.h"
 
 
@@ -18,7 +13,15 @@ float* matriceXvecteur(float** matrice, float* vecteur, int maxData){
 	return vecteurResultat;
 }
 
-
+/*
+Fait le calcul à faire à chaque itération : A=(alpha *Matrice_transition * Vecteur )+((1-alpha)/N * Matrice_Gout *Vecteur)
+entree : 
+	-matrice : tableau 2D de float)
+	-vecteur : tableau 1D de float)
+	-maxData : entier représentant la taille de la matrice)
+retour :
+	-vecteurResultat : tableau 1d représentant le vecteur contenant le résultat du calcul
+*/
 float* matriceXvecteur2(float** matrice, float* vecteur, int maxData){
 	float * vecteurResultat = NULL;
 	float * vecteurCalcul = NULL;
@@ -71,6 +74,11 @@ float* matriceXvecteur2(float** matrice, float* vecteur, int maxData){
 	return vecteurResultat;
 }
 
+/*
+Fonction permettant d'avoir le noeud maximum dans notre graphe
+retour :
+	-maxData : entier représentant la valeur du plus grand noeud
+*/
 int getMax(){
 	const char* commentaire="#";
 
@@ -117,6 +125,15 @@ int getMax(){
 	return maxData;
 }
 
+/*
+La fonction permettant de retourner le résultat ||Xk - X(k-1)|| que l'on compare avec epsilon à chaque itération
+entrée :
+	-vecteur1 : tableau 1d de float
+	-vecteur2 : tableau 1d de float
+	-maxData : Taille des vecteurs
+retour : 
+	-ret : float contenant le résultat du calcul
+*/
 float conditionArret(float *vecteur1, float* vecteur2, int maxData){
 	float a =0;
 	float b = 0;
@@ -343,7 +360,6 @@ void pageRank(int maxData){
 	free(matrice);
 	free(data);
 }
-
 
 int main(){
 	int nb=getMax();

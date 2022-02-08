@@ -6,7 +6,7 @@
 
 #define epsilon       0.0001
 #define damping       0.85
-#define nb_iteration_max       150
+#define nb_iteration_max       100
 #define NB_NOEUDS	  7115
 
 float* matriceXvecteur(float** matrice, float* vecteur, int maxData);

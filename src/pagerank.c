@@ -277,7 +277,7 @@ void pageRank(int maxData){
 		}
 		fprintf(fptr,"%d;%f\n",iter+1,finIteration);
 		fflush(fptr);
-		printf("		resultat = %f\n", finIteration);
+		printf("		resultat(somme du vecteur obtenu) = %f\n", finIteration);
 		iter++;
 	}
 	fclose(fptr);
